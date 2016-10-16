@@ -1,0 +1,26 @@
+{
+  "name": "ap-test-generator",
+  "version": "0.0.16",
+  "description": "A generator to easily create tests",
+  "main": "test_generator.js",
+  "scripts": {
+    "test": "ap-test-generator"
+  },
+  "keywords": [
+    "test",
+    "generator",
+    "cli",
+    "command"
+  ],
+  "author": "Kevin LeClair",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "fs-path": "0.0.22",
+    "inquirer": "^1.2.2",
+    "recursive-readdir-sync": "^1.0.6"
+  },
+  "bin": {
+    "ap-test-generator": "./test_generator.js"
+  }
+}
