@@ -5,6 +5,7 @@ var recursiveReadSync = require('recursive-readdir-sync')
 var fsPath = require('fs-path')
 var path = require('path')
 var chalk = require('chalk')
+var fileExists = require('file-exists')
 
 var nameOfTest = [{
 	type: "input",
@@ -44,6 +45,7 @@ inquirer.prompt(nameOfTest)
 	files = [...recursiveReadSync(`${process.cwd()}/js/app`), ...recursiveReadSync(`${process.cwd()}/jsx`)]
 					.filter(file => file.toLowerCase().includes(moduleQuery.toLowerCase()))
 
+
 	var nextQuestion = [{
 		type: "list",
 		name: 'moduleName',
@@ -58,9 +60,13 @@ inquirer.prompt(nameOfTest)
 	if (moduleName.includes('js/app/')){
 		moduleName = moduleName.replace('js/app/', '')
 	}
-
 	var testPath = `${process.cwd()}/test/specs${moduleName.replace(moduleName.includes('.jsx') ? '.jsx' : '.js', '_test.js')}`
 	var modPath = `${process.cwd()}/${moduleName}`
+
+	if (fileExists(testPath)){
+		console.log(`\n${chalk.red(`File already exists at`)}\n${chalk.cyan(testPath.replace(process.cwd(), ""))}`)
+		return
+	}
 
 	fsPath.writeFileSync(testPath, template(cachedName, path.relative(testPath, modPath)))
 	console.log(`\n${chalk.green(`File is created at`)}\n${chalk.cyan(testPath.replace(process.cwd(), ""))}`)
